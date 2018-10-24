@@ -1,18 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-const int N=105;
+const int N=105,inf=2e9;
 char s[N];
-int n,k=-1,ans[N];
-int vis[N],ord[N],chu[N];
+int n,ans[N];
+int vis[N],chu[N];
 vector<int> e1[N],e2[N];
-inline bool cmp(int x,int y) {
-    return vis[x]<vis[y] || vis[x]==vis[y] && chu[x]>chu[y];
-}
+inline bool cmp(int x,int y) {return x>y;}
 int main() {
     scanf("%d",&n);
     for (int i=0;i<n;i++) {
-        scanf("%s",s); ord[i]=i;
+        scanf("%s",s);
         for (int j=0;j<n;j++) {
             if (s[j]=='+') {
                 e1[i].push_back(j);
@@ -21,17 +19,28 @@ int main() {
             }
         }
     }
-    memset(vis,0,sizeof(vis));
+    int k=0;
+    for (int i=0;i<n;i++) {
+        if (chu[i]>chu[k]) k=i;
+    }
+    int now,tmp=-1;
     for (int i=1;i<=n;i++) {
-        sort(ord,ord+n,cmp);
-        for (int j=0;j<e1[k].size();j++) {
-            
+        if (tmp!=-1) {
+            now=-inf;
+            for (int j=0;j<e1[tmp].size();j++) {
+                int v=e1[tmp][j];
+                if (vis[v]) continue;
+                if (chu[v]>now) {
+                    now=chu[v]; k=v;
+                }
+            }
         }
         vis[k]=1; ans[i]=k;
-        for (int j=0;j<e[k].size();j++) {
-            int v=e[k][j];
+        for (int j=0;j<e2[k].size();j++) {
+            int v=e2[k][j];
             chu[v]--;
         }
+        tmp=k;
     }
     for (int i=1;i<=n;i++) printf("%d ",ans[i]);
     return 0;
