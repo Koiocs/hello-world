@@ -30,7 +30,7 @@ int main() {
         if (judge(mid)) r=mid,ans=mid;
         else l=mid+1;
     }
-    if (ans==-1) printf("Human Cannot Win Dog\n");
+    if (ans==-1) printf("-1\n");
     else {
         int num1=0,num2=0,num3=0;
         rep(i,1,n) {
